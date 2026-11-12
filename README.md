@@ -55,6 +55,7 @@ Comunitera: aplicativo do Diretório Acadêmico Tera que centraliza calendário,
 ## Equipe
 
 - Felipe Flôr
+- Uilsom
 - _(adicione seu nome aqui — este é o seu primeiro Pull Request, veja a Parte 7 do guia)_
 
 ## Estrutura do repositório
