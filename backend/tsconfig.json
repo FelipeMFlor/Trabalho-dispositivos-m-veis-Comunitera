@@ -1,0 +1,17 @@
+{
+  // O Node 24 roda arquivos .ts direto (ele só apaga os tipos).
+  // O TypeScript aqui serve só para CONFERIR os tipos: "npm run verificar".
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
+    "strict": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}
