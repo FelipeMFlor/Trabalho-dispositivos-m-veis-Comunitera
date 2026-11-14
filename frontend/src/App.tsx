@@ -18,6 +18,7 @@ import Calendario from './pages/Calendario';
 import Eventos from './pages/Eventos';
 import Vagas from './pages/Vagas';
 import HubTera from './pages/HubTera';
+import PainelAdmin from './pages/admin/PainelAdmin';
 
 function App() {
   // ---------- Estados ----------
@@ -193,6 +194,17 @@ function App() {
         {telaAtual === 'vagas' && <Vagas vagas={vagas} candidaturas={candidaturas} aoCandidatar={candidatar} />}
         {telaAtual === 'hub' && <HubTera usuario={usuario} aoSair={sair} />}
 
+        {/* O painel só existe para o admin: um aluno nunca chega aqui */}
+        {telaAtual === 'admin' && ehAdmin && (
+          <PainelAdmin
+            eventos={eventos}
+            vagas={vagas}
+            avisos={avisos}
+            aulas={aulas}
+            compromissos={compromissos}
+            aoAtualizar={recarregar}
+          />
+        )}
       </main>
 
       <BarraNavegacao telaAtual={telaAtual} ehAdmin={ehAdmin} aoTrocarTela={setTelaAtual} />
