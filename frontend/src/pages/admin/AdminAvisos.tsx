@@ -1,7 +1,3 @@
-// =============================================================
-// AdminAvisos.tsx — publicar e apagar avisos (aparecem no sininho)
-// =============================================================
-
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import type { Aviso } from '../../types';

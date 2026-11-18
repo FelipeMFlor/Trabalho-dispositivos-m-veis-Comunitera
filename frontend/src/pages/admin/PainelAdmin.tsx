@@ -1,10 +1,3 @@
-// =============================================================
-// PainelAdmin.tsx  —  Painel do D.A. (só o admin vê)
-// Abas para cadastrar e apagar: eventos, vagas, avisos, aulas
-// e datas do calendário. Tudo que é cadastrado aqui vai para o
-// banco e aparece para todos os alunos.
-// =============================================================
-
 import { useState } from 'react';
 import type { Aula, Aviso, Compromisso, Evento, Vaga } from '../../types';
 import AdminEventos from './AdminEventos';
@@ -19,7 +12,7 @@ interface Props {
   avisos: Aviso[];
   aulas: Aula[];
   compromissos: Compromisso[];
-  aoAtualizar: () => void; // pede para o App buscar os dados de novo
+  aoAtualizar: () => void;
 }
 
 type Aba = 'eventos' | 'vagas' | 'avisos' | 'aulas' | 'calendario';
@@ -38,7 +31,7 @@ function PainelAdmin({ eventos, vagas, avisos, aulas, compromissos, aoAtualizar 
   return (
     <div className="tela">
       <h1 className="titulo-tela">Painel do D.A.</h1>
-      <p className="texto-cinza">Tudo que você cadastrar aqui aparece para todos os alunos.</p>
+      <p className="texto-cinza">Tudo que você cadastrar aqui aparece para todos os alunos!</p>
 
       <div className="painel-abas">
         {ABAS.map((item) => (
@@ -52,7 +45,7 @@ function PainelAdmin({ eventos, vagas, avisos, aulas, compromissos, aoAtualizar 
       {aba === 'vagas' && <AdminVagas vagas={vagas} aoAtualizar={aoAtualizar} />}
       {aba === 'avisos' && <AdminAvisos avisos={avisos} aoAtualizar={aoAtualizar} />}
       {aba === 'aulas' && <AdminAulas aulas={aulas} aoAtualizar={aoAtualizar} />}
-      {/* Para o admin, "podeApagar" = compromisso geral do D.A. */}
+      {/* Para o admin, "podeApagar" = compromisso geral do DA */}
       {aba === 'calendario' && (
         <AdminCalendario compromissos={compromissos.filter((c) => c.podeApagar)} aoAtualizar={aoAtualizar} />
       )}

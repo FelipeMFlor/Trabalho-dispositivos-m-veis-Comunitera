@@ -1,10 +1,3 @@
-// =============================================================
-// AdminCalendario.tsx — datas gerais do calendário
-// (provas, entregas, avisos de datas). Todos os alunos veem.
-// Os eventos cadastrados na aba Eventos já entram no calendário
-// sozinhos, então não precisa cadastrar de novo aqui.
-// =============================================================
-
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import type { Compromisso } from '../../types';
@@ -13,7 +6,7 @@ import { formatarDiaMes } from '../../utils/datas';
 import ItemAdmin from '../../components/ItemAdmin';
 
 interface Props {
-  compromissos: Compromisso[]; // só os gerais do D.A.
+  compromissos: Compromisso[]; //só os gerais do DA
   aoAtualizar: () => void;
 }
 

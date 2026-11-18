@@ -1,7 +1,3 @@
-// =============================================================
-// AdminEventos.tsx — cadastrar e apagar eventos do D.A.
-// =============================================================
-
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import type { Evento } from '../../types';
@@ -15,7 +11,6 @@ interface Props {
 }
 
 function AdminEventos({ eventos, aoAtualizar }: Props) {
-  // Campos do formulário
   const [titulo, setTitulo] = useState('');
   const [local, setLocal] = useState('');
   const [data, setData] = useState('');
@@ -32,7 +27,6 @@ function AdminEventos({ eventos, aoAtualizar }: Props) {
     setErro('');
     try {
       await apiPost('/eventos', { titulo, local, data, hora, emoji, corDoTopo, destaque });
-      // Limpa o formulário
       setTitulo('');
       setLocal('');
       setData('');

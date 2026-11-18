@@ -1,9 +1,3 @@
-// =============================================================
-// HubTera.tsx  —  "5. Hub TERA"
-// Carteirinha digital do aluno + atalhos para falar com o D.A.
-// Também tem o botão "Sair" (logout).
-// =============================================================
-
 import type { Usuario } from '../types';
 import { EMAIL_OUVIDORIA, LINK_INSTAGRAM, LINK_WHATSAPP } from '../links';
 
@@ -25,14 +19,14 @@ function HubTera({ usuario, aoSair }: Props) {
           <div className="carteirinha-dados">
             <strong>{usuario.nome}</strong>
             <span>{usuario.curso}</span>
-            <span className="texto-dourado">RA: {usuario.ra}</span>
+            <span className="texto-dourado">RGM: {usuario.ra}</span>
           </div>
           <div className="carteirinha-qr" title="QR Code">🏁</div>
         </div>
       </section>
 
       {/* ---------- Atalhos ---------- */}
-      <h3 className="titulo-secao">Central do Estag / D.A.</h3>
+      <h3 className="titulo-secao">Central do D.A</h3>
 
       <a className="cartao atalho" href={LINK_WHATSAPP} target="_blank" rel="noreferrer">
         <span>💬</span>
@@ -49,7 +43,7 @@ function HubTera({ usuario, aoSair }: Props) {
       <a className="cartao atalho" href={'mailto:' + EMAIL_OUVIDORIA}>
         <span>✉️</span>
         <strong>
-          Fale diretamente conosco!
+          Fale com a gente!!
           <br />
           Ouvidoria TERA.
         </strong>
