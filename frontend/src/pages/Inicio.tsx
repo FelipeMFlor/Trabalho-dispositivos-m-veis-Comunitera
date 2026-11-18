@@ -1,8 +1,3 @@
-// =============================================================
-// Inicio.tsx  —  "1. Página inicial"
-// Saudação, evento em destaque, aula de hoje e canais da comunidade.
-// =============================================================
-
 import { useState } from 'react';
 import type { Aula, Aviso, Evento, Tela, Usuario } from '../types';
 import { LINK_INSTAGRAM, LINK_WHATSAPP } from '../links';
@@ -18,16 +13,12 @@ interface Props {
 }
 
 function Inicio({ usuario, eventos, aulas, avisos, aoTrocarTela }: Props) {
-  // Controla se o modal de avisos (sininho) está aberto
   const [avisosAbertos, setAvisosAbertos] = useState(false);
 
-  // Pega só o primeiro nome: "Maria Silva" -> "Maria"
   const primeiroNome = usuario.nome.split(' ')[0];
 
-  // find = procura o primeiro evento marcado como destaque
   const eventoDestaque = eventos.find((evento) => evento.destaque);
 
-  // filter = pega só as aulas do dia da semana de hoje
   const diaDeHoje = new Date().getDay();
   const aulasDeHoje = aulas.filter((aula) => aula.diaDaSemana === diaDeHoje);
 
@@ -38,7 +29,7 @@ function Inicio({ usuario, eventos, aulas, avisos, aoTrocarTela }: Props) {
         <div className="avatar-pequeno">🐸</div>
         <div className="inicio-saudacao">
           <span>Olá, {primeiroNome}!</span>
-          <strong>Bem-vindo ao COMUNITERA!</strong>
+          <strong>Bem vindo ao COMUNITERA! (:</strong>
         </div>
         <button className="botao-sino" onClick={() => setAvisosAbertos(true)} aria-label="Avisos">
           🔔
@@ -61,10 +52,10 @@ function Inicio({ usuario, eventos, aulas, avisos, aoTrocarTela }: Props) {
       )}
 
       {/* ---------- Resumo de hoje ---------- */}
-      <h3 className="titulo-secao">Resumo de Hoje</h3>
+      <h3 className="titulo-secao">Resumo de hoje</h3>
       {aulasDeHoje.length === 0 ? (
         <div className="cartao cartao-com-barra">
-          <p className="texto-cinza">Sem aulas hoje. Aproveite o descanso! 😄</p>
+          <p className="texto-cinza">Sem aulas hoje!</p>
         </div>
       ) : (
         aulasDeHoje.map((aula) => (
@@ -79,7 +70,7 @@ function Inicio({ usuario, eventos, aulas, avisos, aoTrocarTela }: Props) {
       )}
 
       {/* ---------- Canais da comunidade ---------- */}
-      <h3 className="titulo-secao">Canais da Comunidade</h3>
+      <h3 className="titulo-secao">Canais da comunidade</h3>
       <div className="grade-dois">
         <a className="cartao canal" href={LINK_WHATSAPP} target="_blank" rel="noreferrer">
           <span className="canal-icone">💬</span>
@@ -100,7 +91,7 @@ function Inicio({ usuario, eventos, aulas, avisos, aoTrocarTela }: Props) {
       {/* ---------- Modal de avisos ---------- */}
       {avisosAbertos && (
         <Modal titulo="Avisos do D.A." aoFechar={() => setAvisosAbertos(false)}>
-          {avisos.length === 0 && <p className="texto-cinza">Nenhum aviso por enquanto.</p>}
+          {avisos.length === 0 && <p className="texto-cinza">Nenhum aviso por enquanto...</p>}
           {avisos.map((aviso) => (
             <div className="aviso" key={aviso.id}>
               <strong>{aviso.titulo}</strong>

@@ -1,9 +1,3 @@
-// =============================================================
-// Calendario.tsx  —  "2. Calendário"
-// Mostra o mês em forma de grade, deixa escolher um dia,
-// filtrar por categoria e adicionar compromissos (botão +).
-// =============================================================
-
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import type { Categoria, Compromisso } from '../types';
@@ -19,7 +13,7 @@ import {
 
 interface Props {
   compromissos: Compromisso[];
-  ehAdmin: boolean; // admin cria compromissos gerais (todos os alunos veem)
+  ehAdmin: boolean; 
   aoAdicionar: (titulo: string, data: string, hora: string, categoria: Categoria) => void;
   aoRemover: (id: number) => void;
 }
@@ -28,7 +22,6 @@ type Filtro = 'todos' | 'academico' | 'pessoal';
 
 const LETRAS_DA_SEMANA = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
-// Texto que aparece embaixo do título do compromisso
 const NOME_DA_CATEGORIA: Record<Categoria, string> = {
   academico: 'Acadêmico',
   pessoal: 'Pessoal',
@@ -38,19 +31,16 @@ const NOME_DA_CATEGORIA: Record<Categoria, string> = {
 function Calendario({ compromissos, ehAdmin, aoAdicionar, aoRemover }: Props) {
   const hoje = new Date();
 
-  // Mês e ano que estão aparecendo na tela (começa no mês atual)
   const [ano, setAno] = useState(hoje.getFullYear());
-  const [mes, setMes] = useState(hoje.getMonth()); // 0 = janeiro
+  const [mes, setMes] = useState(hoje.getMonth());
   const [diaSelecionado, setDiaSelecionado] = useState(dataDeHoje());
   const [filtro, setFiltro] = useState<Filtro>('todos');
 
-  // Estados do formulário de novo compromisso
   const [formularioAberto, setFormularioAberto] = useState(false);
   const [novoTitulo, setNovoTitulo] = useState('');
   const [novaHora, setNovaHora] = useState('');
   const [novaCategoria, setNovaCategoria] = useState<Categoria>(ehAdmin ? 'academico' : 'pessoal');
 
-  // ---------- Navegar entre os meses ----------
   function mesAnterior() {
     if (mes === 0) {
       setMes(11);
@@ -69,12 +59,8 @@ function Calendario({ compromissos, ehAdmin, aoAdicionar, aoRemover }: Props) {
     }
   }
 
-  // ---------- Filtro por categoria ----------
-  // "Todos" mostra tudo; "Acadêmico" e "Pessoal" mostram só a categoria escolhida
   const compromissosFiltrados = compromissos.filter((c) => filtro === 'todos' || c.categoria === filtro);
 
-  // ---------- Montar a grade do mês ----------
-  // Começa com espaços vazios (null) até o dia da semana em que o mês começa
   const celulas: (number | null)[] = [];
   for (let i = 0; i < primeiroDiaDaSemana(ano, mes); i++) {
     celulas.push(null);
@@ -83,25 +69,20 @@ function Calendario({ compromissos, ehAdmin, aoAdicionar, aoRemover }: Props) {
     celulas.push(dia);
   }
 
-  // Verifica se um dia tem algum compromisso (para mostrar a bolinha)
   function temCompromisso(data: string): boolean {
     return compromissosFiltrados.some((c) => c.data === data);
   }
 
-  // Compromissos do dia escolhido, em ordem de horário
   const doDia = compromissosFiltrados
     .filter((c) => c.data === diaSelecionado)
     .sort((a, b) => a.hora.localeCompare(b.hora));
 
-  // ---------- Salvar novo compromisso ----------
   function salvarCompromisso(evento: FormEvent) {
     evento.preventDefault();
     if (novoTitulo.trim() === '' || novaHora === '') {
       return;
     }
-    // Quem salva de verdade é o App, que manda para o servidor
     aoAdicionar(novoTitulo.trim(), diaSelecionado, novaHora, novaCategoria);
-    // Limpa e fecha o formulário
     setNovoTitulo('');
     setNovaHora('');
     setFormularioAberto(false);
@@ -109,18 +90,18 @@ function Calendario({ compromissos, ehAdmin, aoAdicionar, aoRemover }: Props) {
 
   return (
     <div className="tela">
-      <h1 className="titulo-tela">Calendário</h1>
+      <h1 className="titulo-tela">Seu calendário!</h1>
 
       {/* ---------- Abas de filtro ---------- */}
       <div className="filtros">
         <button className={filtro === 'todos' ? 'filtro ativo' : 'filtro'} onClick={() => setFiltro('todos')}>
-          Todos
+          todos
         </button>
         <button className={filtro === 'academico' ? 'filtro ativo' : 'filtro'} onClick={() => setFiltro('academico')}>
-          Acadêmico
+          acadêmico
         </button>
         <button className={filtro === 'pessoal' ? 'filtro ativo' : 'filtro'} onClick={() => setFiltro('pessoal')}>
-          Pessoal
+          pessoal
         </button>
       </div>
 
@@ -160,7 +141,7 @@ function Calendario({ compromissos, ehAdmin, aoAdicionar, aoRemover }: Props) {
       {/* ---------- Lista do dia ---------- */}
       <h3 className="titulo-secao">Eventos de {formatarDiaMes(diaSelecionado)}</h3>
 
-      {doDia.length === 0 && <p className="texto-cinza">Nada marcado para este dia.</p>}
+      {doDia.length === 0 && <p className="texto-cinza">Nada marcado para este dia...</p>}
 
       {doDia.map((c) => (
         <div key={c.id} className={'cartao cartao-com-barra barra-' + c.categoria}>

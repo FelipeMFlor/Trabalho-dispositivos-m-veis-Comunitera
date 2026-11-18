@@ -1,22 +1,10 @@
-// =============================================================
-// db.ts
-// Abre o banco de dados SQLite (um arquivo só: comunitera.db),
-// cria as tabelas na primeira vez e coloca alguns dados de exemplo.
-// O SQLite já vem dentro do Node (node:sqlite), não precisa instalar.
-// =============================================================
-
 import { DatabaseSync } from 'node:sqlite';
 import bcrypt from 'bcryptjs';
 
-// Abre (ou cria, se não existir) o arquivo do banco
 const db = new DatabaseSync('comunitera.db');
 
-// Faz o SQLite respeitar as chaves estrangeiras (REFERENCES)
 db.exec('PRAGMA foreign_keys = ON;');
 
-// ---------- Criação das tabelas ----------
-// "IF NOT EXISTS" = só cria se ainda não existir.
-// Assim podemos rodar isso toda vez que o servidor liga.
 db.exec(`
   CREATE TABLE IF NOT EXISTS usuarios (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -92,8 +80,6 @@ db.exec(`
   );
 `);
 
-// ---------- Login mestre do D.A. ----------
-// Se ainda não existir nenhum admin, cria um com o usuário e a senha do .env
 const usuarioAdmin = process.env.ADMIN_USUARIO ?? 'admin';
 const senhaAdmin = process.env.ADMIN_SENHA ?? 'TeraAdmin2026';
 
@@ -109,9 +95,6 @@ if (!adminExiste) {
   console.log(`Login mestre do D.A. criado (usuário: ${usuarioAdmin}).`);
 }
 
-// ---------- Dados de exemplo ----------
-// Só entram se o banco estiver vazio (primeira vez), para o app não começar em branco.
-// Depois disso, quem cadastra tudo é o admin pelo Painel do D.A.
 function tabelaVazia(tabela: string): boolean {
   const linha = db.prepare(`SELECT COUNT(*) AS total FROM ${tabela}`).get() as { total: number };
   return linha.total === 0;
@@ -151,10 +134,10 @@ if (tabelaVazia('avisos')) {
 if (tabelaVazia('aulas')) {
   const inserir = db.prepare('INSERT INTO aulas (dia_da_semana, materia, horario, sala, professor) VALUES (?, ?, ?, ?, ?)');
   inserir.run(1, 'Programação para dispositivos móveis', '19:30 - 22:30', 'Sala 304', 'Prof. Adélcio');
-  inserir.run(2, 'Banco de Dados', '19:30 - 22:30', 'Lab. 2', 'Profª. Marina');
-  inserir.run(3, 'Engenharia de Software', '19:30 - 22:30', 'Sala 210', 'Prof. Ricardo');
-  inserir.run(4, 'Desenvolvimento Web', '19:30 - 22:30', 'Lab. 4', 'Profª. Juliana');
-  inserir.run(5, 'Redes de Computadores', '19:30 - 21:00', 'Sala 305', 'Prof. Carlos');
+  inserir.run(2, 'Banco de Dados', '19:30 - 22:30', 'Lab. 2', 'Profª. Vinícius');
+  inserir.run(3, 'Engenharia de Software', '19:30 - 22:30', 'Sala 210', 'Prof. Josiane');
+  inserir.run(4, 'Desenvolvimento Web', '19:30 - 22:30', 'Lab. 4', 'Profª. Adélcio');
+  inserir.run(5, 'Redes de Computadores', '19:30 - 21:00', 'Sala 305', 'Prof. Tainer');
 }
 
 if (tabelaVazia('compromissos')) {

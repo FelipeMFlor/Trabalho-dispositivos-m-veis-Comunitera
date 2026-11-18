@@ -1,7 +1,3 @@
-// =============================================================
-// AdminVagas.tsx — cadastrar e apagar vagas do mural
-// =============================================================
-
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import type { Vaga } from '../../types';
@@ -20,7 +16,7 @@ function AdminVagas({ vagas, aoAtualizar }: Props) {
   const [cargaHoraria, setCargaHoraria] = useState('');
   const [emoji, setEmoji] = useState('💼');
   const [descricao, setDescricao] = useState('');
-  const [requisitos, setRequisitos] = useState(''); // um por linha
+  const [requisitos, setRequisitos] = useState('');
   const [mensagem, setMensagem] = useState('');
   const [erro, setErro] = useState('');
 
@@ -58,11 +54,11 @@ function AdminVagas({ vagas, aoAtualizar }: Props) {
         <h3>Nova vaga</h3>
         <label>
           Título
-          <input value={titulo} onChange={(e) => setTitulo(e.target.value)} placeholder="Ex: Estágio em Suporte" />
+          <input value={titulo} onChange={(e) => setTitulo(e.target.value)} placeholder="ex: estágio em suporte" />
         </label>
         <label>
           Empresa
-          <input value={empresa} onChange={(e) => setEmpresa(e.target.value)} placeholder="Ex: FSG — Setor de TI" />
+          <input value={empresa} onChange={(e) => setEmpresa(e.target.value)} placeholder="ex: FSG, setor de TI" />
         </label>
         <div className="grade-dois">
           <label>
@@ -75,7 +71,7 @@ function AdminVagas({ vagas, aoAtualizar }: Props) {
           </label>
           <label>
             Carga horária
-            <input value={cargaHoraria} onChange={(e) => setCargaHoraria(e.target.value)} placeholder="Ex: 30h/semana" />
+            <input value={cargaHoraria} onChange={(e) => setCargaHoraria(e.target.value)} placeholder="ex: 30h por semana" />
           </label>
         </div>
         <label>

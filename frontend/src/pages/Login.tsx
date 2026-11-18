@@ -1,11 +1,3 @@
-// =============================================================
-// Login.tsx
-// Tela de entrada com dois modos:
-//  - "Entrar": RA (ou usuário do D.A.) + senha
-//  - "Criar conta": nome, curso, RA e senha (só para alunos)
-// Quem confere a senha é o servidor.
-// =============================================================
-
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import type { RespostaLogin, Usuario } from '../types';
@@ -18,7 +10,6 @@ interface Props {
 function Login({ aoEntrar }: Props) {
   const [modo, setModo] = useState<'entrar' | 'cadastrar'>('entrar');
 
-  // Um estado para cada campo do formulário
   const [nome, setNome] = useState('');
   const [curso, setCurso] = useState('');
   const [ra, setRa] = useState('');
@@ -26,12 +17,10 @@ function Login({ aoEntrar }: Props) {
   const [erro, setErro] = useState('');
   const [enviando, setEnviando] = useState(false);
 
-  // Chamada quando o formulário é enviado
   async function enviarFormulario(evento: FormEvent) {
-    evento.preventDefault(); // impede a página de recarregar
+    evento.preventDefault(); //impede a página de recarregar
     setErro('');
 
-    // Validações simples antes de chamar o servidor
     if (ra.trim() === '' || senha === '') {
       setErro('Preencha todos os campos.');
       return;
@@ -42,7 +31,7 @@ function Login({ aoEntrar }: Props) {
         return;
       }
       if (isNaN(Number(ra))) {
-        setErro('O RA deve ter só números.');
+        setErro('O RGM deve ter só números.');
         return;
       }
       if (senha.length < 6) {
@@ -58,10 +47,9 @@ function Login({ aoEntrar }: Props) {
           ? await apiPost<RespostaLogin>('/login', { ra, senha })
           : await apiPost<RespostaLogin>('/cadastro', { nome, curso, ra, senha });
 
-      // Deu certo: avisa o App quem entrou
       aoEntrar(resposta.token, resposta.usuario);
     } catch (e) {
-      setErro((e as Error).message); // mensagem que veio do servidor
+      setErro((e as Error).message);
     } finally {
       setEnviando(false);
     }
@@ -76,7 +64,7 @@ function Login({ aoEntrar }: Props) {
     <div className="tela-login">
       <div className="login-logo">🎓</div>
       <h1>COMUNITERA</h1>
-      <p className="login-subtitulo">O app do Diretório Acadêmico TERA</p>
+      <p className="login-subtitulo">O app do Diretório Acadêmico TERA!</p>
 
       <form className="cartao login-formulario" onSubmit={enviarFormulario}>
         <h2 className="login-titulo">{modo === 'entrar' ? 'Entrar' : 'Criar conta'}</h2>
@@ -96,7 +84,7 @@ function Login({ aoEntrar }: Props) {
         )}
 
         <label>
-          {modo === 'entrar' ? 'RA (ou usuário do D.A.)' : 'RA (matrícula)'}
+          {modo === 'entrar' ? 'RGM (ou usuário do D.A.)' : 'RGM (matrícula)'}
           <input value={ra} onChange={(e) => setRa(e.target.value)} placeholder="Ex: 202610842" />
         </label>
 

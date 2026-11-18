@@ -1,7 +1,3 @@
-// =============================================================
-// AdminAulas.tsx — grade de aulas (usada no "Resumo de Hoje")
-// =============================================================
-
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 import type { Aula } from '../../types';
@@ -13,7 +9,6 @@ interface Props {
   aoAtualizar: () => void;
 }
 
-// A posição na lista é o número do dia: 0 = Domingo ... 6 = Sábado
 const DIAS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
 function AdminAulas({ aulas, aoAtualizar }: Props) {
