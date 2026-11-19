@@ -1,25 +1,12 @@
-// =============================================================
-// rotas/eventos.ts
-//   GET    /api/eventos                 -> lista os eventos (qualquer logado)
-//   POST   /api/eventos                 -> cria evento (só admin)
-//   DELETE /api/eventos/:id             -> apaga evento (só admin)
-//   GET    /api/eventos/inscricoes      -> ids dos eventos em que EU me inscrevi
-//   POST   /api/eventos/:id/inscricao   -> me inscrever
-//   DELETE /api/eventos/:id/inscricao   -> cancelar minha inscrição
-// =============================================================
-
 import { Router } from 'express';
 import db from '../db.ts';
 import { exigirAdmin, exigirLogin, usuarioLogado } from '../auth.ts';
 
 const rotas = Router();
 
-// Todas as rotas daqui precisam de login
 rotas.use(exigirLogin);
 
 rotas.get('/', (req, res) => {
-  // "AS corDoTopo" renomeia a coluna para o nome que o app usa.
-  // A subconsulta conta quantas pessoas se inscreveram em cada evento.
   const linhas = db
     .prepare(
       `SELECT id, titulo, local, data, hora, emoji,
@@ -31,7 +18,6 @@ rotas.get('/', (req, res) => {
     )
     .all();
 
-  // No SQLite verdadeiro/falso é 1/0. Convertemos para true/false.
   const eventos = linhas.map((linha) => ({ ...linha, destaque: linha.destaque === 1 }));
   res.json(eventos);
 });
@@ -51,7 +37,6 @@ rotas.post('/', exigirAdmin, (req, res) => {
     return;
   }
 
-  // Se este evento for o destaque, os outros deixam de ser (só um aparece na Página inicial)
   if (destaque) {
     db.prepare('UPDATE eventos SET destaque = 0').run();
   }
@@ -69,7 +54,7 @@ rotas.delete('/:id', exigirAdmin, (req, res) => {
     res.status(404).json({ erro: 'Evento não encontrado.' });
     return;
   }
-  res.status(204).end(); // 204 = deu certo, sem nada para devolver
+  res.status(204).end();
 });
 
 rotas.post('/:id/inscricao', (req, res) => {
@@ -78,7 +63,6 @@ rotas.post('/:id/inscricao', (req, res) => {
     res.status(404).json({ erro: 'Evento não encontrado.' });
     return;
   }
-  // "OR IGNORE": se já estiver inscrito, não faz nada (e não dá erro)
   db.prepare('INSERT OR IGNORE INTO inscricoes (usuario_id, evento_id) VALUES (?, ?)').run(
     usuarioLogado(res).id,
     Number(req.params.id),

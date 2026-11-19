@@ -1,10 +1,3 @@
-// =============================================================
-// rotas/aulas.ts  (grade de aulas usada no "Resumo de Hoje")
-//   GET    /api/aulas       -> lista as aulas
-//   POST   /api/aulas       -> cria aula (só admin)
-//   DELETE /api/aulas/:id   -> apaga aula (só admin)
-// =============================================================
-
 import { Router } from 'express';
 import db from '../db.ts';
 import { exigirAdmin, exigirLogin } from '../auth.ts';

@@ -1,11 +1,3 @@
-// =============================================================
-// rotas/contas.ts
-// Cadastro de aluno, login e "quem sou eu".
-//   POST /api/cadastro   -> cria conta de aluno
-//   POST /api/login      -> confere RA + senha e devolve o token
-//   GET  /api/eu         -> devolve os dados de quem está logado
-// =============================================================
-
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import db from '../db.ts';
@@ -13,7 +5,6 @@ import { exigirLogin, gerarToken, usuarioLogado } from '../auth.ts';
 
 const rotas = Router();
 
-// Formato de uma linha da tabela usuarios
 interface LinhaUsuario {
   id: number;
   nome: string;
@@ -23,7 +14,6 @@ interface LinhaUsuario {
   papel: 'aluno' | 'admin';
 }
 
-// Nunca devolvemos a senha (nem o hash) para o app
 function semSenha(usuario: LinhaUsuario) {
   return { id: usuario.id, nome: usuario.nome, curso: usuario.curso, ra: usuario.ra, papel: usuario.papel };
 }
@@ -31,7 +21,6 @@ function semSenha(usuario: LinhaUsuario) {
 rotas.post('/cadastro', (req, res) => {
   const { nome, curso, ra, senha } = req.body ?? {};
 
-  // Validações simples
   if (!nome || !curso || !ra || !senha) {
     res.status(400).json({ erro: 'Preencha todos os campos.' });
     return;
@@ -51,13 +40,11 @@ rotas.post('/cadastro', (req, res) => {
     return;
   }
 
-  // Guardamos só o HASH da senha (uma "impressão digital"), nunca a senha em si
   const senhaHash = bcrypt.hashSync(String(senha), 10);
   const resultado = db
     .prepare('INSERT INTO usuarios (nome, curso, ra, senha_hash) VALUES (?, ?, ?, ?)')
     .run(String(nome).trim(), String(curso).trim(), String(ra).trim(), senhaHash);
 
-  // Já devolve o token, assim o aluno entra direto depois de se cadastrar
   const id = Number(resultado.lastInsertRowid);
   const token = gerarToken({ id, papel: 'aluno' });
 
@@ -74,7 +61,6 @@ rotas.post('/login', (req, res) => {
     | LinhaUsuario
     | undefined;
 
-  // compareSync confere se a senha digitada "bate" com o hash guardado
   if (!usuario || !bcrypt.compareSync(String(senha ?? ''), usuario.senha_hash)) {
     res.status(401).json({ erro: 'RA/usuário ou senha incorretos.' });
     return;

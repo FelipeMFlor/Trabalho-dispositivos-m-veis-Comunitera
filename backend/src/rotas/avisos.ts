@@ -1,10 +1,3 @@
-// =============================================================
-// rotas/avisos.ts
-//   GET    /api/avisos       -> lista os avisos, do mais novo para o mais antigo
-//   POST   /api/avisos       -> cria aviso (só admin)
-//   DELETE /api/avisos/:id   -> apaga aviso (só admin)
-// =============================================================
-
 import { Router } from 'express';
 import db from '../db.ts';
 import { exigirAdmin, exigirLogin } from '../auth.ts';

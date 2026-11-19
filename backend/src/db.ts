@@ -10,20 +10,20 @@ db.exec(`
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     nome        TEXT    NOT NULL,
     curso       TEXT    NOT NULL,
-    ra          TEXT    NOT NULL UNIQUE,      -- login do aluno (o admin usa "admin")
+    ra          TEXT    NOT NULL UNIQUE,
     senha_hash  TEXT    NOT NULL,
-    papel       TEXT    NOT NULL DEFAULT 'aluno'  -- 'aluno' ou 'admin'
+    papel       TEXT    NOT NULL DEFAULT 'aluno'
   );
 
   CREATE TABLE IF NOT EXISTS eventos (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
     titulo       TEXT    NOT NULL,
     local        TEXT    NOT NULL,
-    data         TEXT    NOT NULL,   -- "AAAA-MM-DD"
-    hora         TEXT    NOT NULL,   -- "HH:MM"
+    data         TEXT    NOT NULL,
+    hora         TEXT    NOT NULL,
     emoji        TEXT    NOT NULL DEFAULT '🎉',
-    cor_do_topo  TEXT    NOT NULL DEFAULT 'roxo',  -- 'roxo' ou 'escuro'
-    destaque     INTEGER NOT NULL DEFAULT 0        -- 0 = não, 1 = sim
+    cor_do_topo  TEXT    NOT NULL DEFAULT 'roxo',
+    destaque     INTEGER NOT NULL DEFAULT 0
   );
 
   CREATE TABLE IF NOT EXISTS vagas (
@@ -34,7 +34,7 @@ db.exec(`
     carga_horaria  TEXT NOT NULL,
     emoji          TEXT NOT NULL DEFAULT '💼',
     descricao      TEXT NOT NULL,
-    requisitos     TEXT NOT NULL DEFAULT ''  -- um requisito por linha
+    requisitos     TEXT NOT NULL DEFAULT ''
   );
 
   CREATE TABLE IF NOT EXISTS avisos (
@@ -46,33 +46,28 @@ db.exec(`
 
   CREATE TABLE IF NOT EXISTS aulas (
     id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    dia_da_semana   INTEGER NOT NULL,  -- 0 = domingo ... 6 = sábado
+    dia_da_semana   INTEGER NOT NULL,
     materia         TEXT    NOT NULL,
     horario         TEXT    NOT NULL,
     sala            TEXT    NOT NULL,
     professor       TEXT    NOT NULL
   );
 
-  -- Compromissos do calendário.
-  -- usuario_id vazio (NULL) = compromisso geral do D.A., todo mundo vê.
-  -- usuario_id preenchido   = compromisso pessoal, só o dono vê.
   CREATE TABLE IF NOT EXISTS compromissos (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     titulo      TEXT    NOT NULL,
     data        TEXT    NOT NULL,
     hora        TEXT    NOT NULL,
-    categoria   TEXT    NOT NULL,  -- 'academico', 'pessoal' ou 'tera'
+    categoria   TEXT    NOT NULL,
     usuario_id  INTEGER REFERENCES usuarios(id) ON DELETE CASCADE
   );
 
-  -- Quem se inscreveu em qual evento
   CREATE TABLE IF NOT EXISTS inscricoes (
     usuario_id  INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
     evento_id   INTEGER NOT NULL REFERENCES eventos(id) ON DELETE CASCADE,
     PRIMARY KEY (usuario_id, evento_id)
   );
 
-  -- Quem se candidatou a qual vaga
   CREATE TABLE IF NOT EXISTS candidaturas (
     usuario_id  INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
     vaga_id     INTEGER NOT NULL REFERENCES vagas(id) ON DELETE CASCADE,

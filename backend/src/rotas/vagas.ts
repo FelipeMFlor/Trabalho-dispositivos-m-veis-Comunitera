@@ -1,12 +1,3 @@
-// =============================================================
-// rotas/vagas.ts
-//   GET    /api/vagas                    -> lista as vagas (qualquer logado)
-//   POST   /api/vagas                    -> cria vaga (só admin)
-//   DELETE /api/vagas/:id                -> apaga vaga (só admin)
-//   GET    /api/vagas/candidaturas       -> ids das vagas em que EU me candidatei
-//   POST   /api/vagas/:id/candidatura    -> me candidatar
-// =============================================================
-
 import { Router } from 'express';
 import db from '../db.ts';
 import { exigirAdmin, exigirLogin, usuarioLogado } from '../auth.ts';
@@ -24,8 +15,6 @@ rotas.get('/', (req, res) => {
     )
     .all();
 
-  // Os requisitos ficam no banco como texto, um por linha.
-  // split('\n') transforma em lista; filter tira as linhas vazias.
   const vagas = linhas.map((linha) => ({
     ...linha,
     requisitos: String(linha.requisitos)
