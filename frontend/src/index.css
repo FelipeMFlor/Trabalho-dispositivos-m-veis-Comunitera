@@ -226,9 +226,14 @@ select:focus { border-color: var(--roxo); }
   border-radius: 50%;
   display: grid;
   place-items: center;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
+  color: #FFFFFF;
 }
-.botao-nav.ativo { background: var(--dourado); }
+
+.botao-nav.ativo {
+  background-color: #F4C95D;
+  color: #44245F;
+}
 
 /* ---------- 1. Página inicial ---------- */
 
