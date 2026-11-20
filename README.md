@@ -6,7 +6,7 @@ Comunitera: aplicativo do Diretório Acadêmico Tera que centraliza calendário,
 
 | | |
 |---|---|
-| **App (frontend)** | React + TypeScript (Vite), com cara de app de celular |
+| **App (frontend)** | React Native + TypeScript com **Expo** e **Expo Router** (roda no celular pelo Expo Go) |
 | **Servidor (API)** | Node.js + Express, em TypeScript |
 | **Banco de dados** | SQLite (já vem dentro do Node, não precisa instalar nada) |
 | **Login** | Senha criptografada com bcrypt + token JWT |
@@ -68,7 +68,7 @@ Comunitera/
 │   ├── GUIA_DE_ESTUDO.md            ← material de estudo
 │   └── imagens/                     ← prints das telas
 ├── backend/               ← API em Node.js + Express + SQLite (TypeScript)
-└── frontend/              ← app em React + TypeScript (Vite)
+└── frontend/              ← app mobile em React Native (Expo + Expo Router)
 ```
 
 ## Como rodar o projeto
@@ -85,10 +85,18 @@ npm run dev
 # Terminal 2 — app
 cd frontend
 npm install        # só na primeira vez
-npm run dev
+npx expo start
 ```
 
-Abra o endereço que o Terminal 2 mostrar (normalmente <http://localhost:5173>). Para entrar como diretoria, use o usuário e a senha que estão no `backend/.env`. Para entrar como aluno, clique em **Cadastre-se**.
+O Terminal 2 mostra um **QR code**:
+
+- **No celular:** instale o app **Expo Go** (Play Store / App Store) e leia o QR code (no iPhone, pela câmera). O celular precisa estar **no mesmo Wi-Fi** que o computador.
+- **Tecla `a`:** abre no emulador Android (Android Studio).
+- **Tecla `w`:** abre no navegador, bom para testar rápido sem celular.
+
+Para entrar como diretoria, use o usuário e a senha que estão no `backend/.env`. Para entrar como aluno, toque em **Cadastre-se**.
+
+> **O app não conecta no servidor pelo celular?** O app procura o servidor no IP do computador (o mesmo que aparece embaixo do QR code, ex: `exp://192.168.1.14:8081`), na porta 3000. Confira se o celular está no mesmo Wi-Fi e se o Firewall do Windows liberou o Node na rede privada. Se precisar, crie o arquivo `frontend/.env` com `EXPO_PUBLIC_API_URL=http://SEU_IP:3000/api` (veja o README do frontend).
 
 ---
 
