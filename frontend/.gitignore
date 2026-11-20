@@ -41,3 +41,6 @@ example
 # generated native folders
 /ios
 /android
+
+# endereço do servidor de cada um (veja o README)
+.env
