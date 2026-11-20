@@ -1,4 +1,10 @@
-import { Alert, Platform } from 'react-native';
+import { Alert, Linking, Platform } from 'react-native';
+
+export function abrirLink(link: string): void {
+  Linking.openURL(link).catch(() => {
+    mostrarMensagem('Ops!', 'Não foi possível abrir este link no seu aparelho.');
+  });
+}
 
 export function mostrarMensagem(titulo: string, texto: string): void {
   if (Platform.OS === 'web') {

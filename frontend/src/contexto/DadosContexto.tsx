@@ -118,6 +118,14 @@ export function ProvedorDeDados({ children }: { children: ReactNode }) {
   function sair() {
     apagarToken();
     setUsuario(null);
+    setEventos([]);
+    setVagas([]);
+    setAvisos([]);
+    setAulas([]);
+    setCompromissos([]);
+    setInscricoes([]);
+    setCandidaturas([]);
+    setErro('');
   }
 
   async function executar(acao: Promise<unknown>) {
